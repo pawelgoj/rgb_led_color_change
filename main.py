@@ -137,29 +137,29 @@ state_of_button_change_color = 'b' if first_run else 'loaded'
 #thread with handling buttons events 
 _thread.start_new_thread(button_on_off_thread, ())
 
-tym_colors = [colors['b'], colors['g'], colors['r']]
+temp_colors = [colors['b'], colors['g'], colors['r']]
 
 
 while True:
     result: int = (0 if potentiometer.read_u16() < 300 else potentiometer.read_u16())
     
     if button_on_off_pressed and (state_of_button_change_color == 'b'):
-        tym_colors[0] = result
+        temp_colors[0] = result
         led_b.duty_u16(result)
         
     elif button_on_off_pressed and state_of_button_change_color == 'g':
-        tym_colors[1] = result
+        temp_colors[1] = result
         led_g.duty_u16(result)
         
     elif button_on_off_pressed and state_of_button_change_color == 'r':
-        tym_colors[2] = result
+        temp_colors[2] = result
         led_r.duty_u16(result)
         
     elif button_on_off_pressed and state_of_button_change_color == 'save':
         first_run = False
-        colors['b'] = tym_colors[0]
-        colors['g'] = tym_colors[1]
-        colors['r'] = tym_colors[2]
+        colors['b'] = temp_colors[0]
+        colors['g'] = temp_colors[1]
+        colors['r'] = temp_colors[2]
         
         with open('data.txt', 'w') as file:
             string_to_file = f"{colors['b']} {colors['g']} {colors['r']}"
